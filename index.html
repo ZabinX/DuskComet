@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DuskCheerpJ test</title>
+    <script src="https://cjrtnc.leaningtech.com/20250618_2540/loader.js"></script>
+  </head>
+  <body>
+<script>
+  (async function () {
+    // 1. Initialize CheerpJ and tell it to mount the current web directory
+    //    as the virtual /app folder.
+    await cheerpjInit({
+      mounts: ["/app/"]
+    });
+
+    cheerpjCreateDisplay(1280, 720);
+
+    // 2. Now that /app exists, you can load the JAR from it.
+    await cheerpjRunJar("/app/duskclient.jar");
+
+    // 3. Connect to your game server via its public Funnel URL.
+    await cheerpjRunMain("Dusk", "dusk.coat-richter.ts.net", "443");
+  })();
+</script>
+  </body>
+</html>
