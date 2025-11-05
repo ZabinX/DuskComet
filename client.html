@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DuskCheerpJ test</title>
+    <script src="https://cjrtnc.leaningtech.com/20250618_2540/loader.js"></script>
+  </head>
+  <body>
+<script>
+  (async function () {
+    await cheerpjInit();
+    cheerpjCreateDisplay(1280, 720);
+
+    // 1. Load the JAR file from its new public location on GitHub Pages
+    await cheerpjRunJar("https://ZabinX.github.io/DuskComet/duskclientZ4747.jar");
+
+    // 2. Connect to your game server via its public Funnel URL
+    //    (The Java code we wrote will handle these arguments)
+    await cheerpjRunMain("Dusk", "dusk.coat-richter.ts.net", "443");
+  })();
+</script>
+  </body>
+</html>
