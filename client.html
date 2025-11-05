@@ -10,14 +10,8 @@
   (async function () {
     await cheerpjInit();
     cheerpjCreateDisplay(1280, 720);
-
-    // 1. Load the JAR file from its new public location on GitHub Pages
-    await cheerpjRunJar("/app/duskclientZ4747.jar");
-
-    // 2. Connect to your game server via its public Funnel URL
-    //    (The Java code we wrote will handle these arguments)
-    await cheerpjRunMain("Dusk", "dusk.coat-richter.ts.net", "443");
-  })();
-</script>
+    await cheerpjRunJar("/app/duskclientZ4747.jar", "dusk.coat-richter.ts.net", "443");
+    })();
+  </script>
   </body>
 </html>
