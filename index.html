@@ -21,7 +21,7 @@
       const jarData = await response.arrayBuffer();
 
       // 3. Create the virtual /app directory using the CORRECT older function name.
-      await cheerpjMkdir("/app");
+      await cheerpjMkdir("/app/");
 
       // 4. Add the JAR file using the CORRECT older function name.
       await cheerpjAddStringFile("/app/duskclient.jar", new Uint8Array(jarData));
