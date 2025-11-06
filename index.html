@@ -6,38 +6,13 @@
     <script src="https://cjrtnc.leaningtech.com/20250618_2540/loader.js"></script>
   </head>
   <body>
-<script>
-  (async function () {
-    try {
-      // 1. Initialize CheerpJ
-      await cheerpjInit();
-      cheerpjCreateDisplay(1280, 720);
+    <script>
+      (async function () {
 
-      // 2. Fetch the JAR file's data
-      const response = await fetch('./duskclient.jar');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const jarData = await response.arrayBuffer();
-
-      // 3. *** THE FIX ***
-      //    Create the virtual /app directory first.
-      await cheerpOSMkdir("/app");
-
-      // 4. Now, add the JAR file into the newly created directory.
-      await cheerpOSAddStringFile("/app/duskclient.jar", new Uint8Array(jarData));
-
-      // 5. Run the JAR from the virtual filesystem.
-      await cheerpjRunJar("/app/duskclient.jar");
-
-      // 6. Connect to the game server.
-      await cheerpjRunMain("Dusk", "dusk.coat-richter.ts.net", "443");
-
-    } catch (error) {
-      // If anything goes wrong, log it to the console for debugging.
-      console.error("CheerpJ startup error:", error);
-    }
-  })();
-</script>
+        await cheerpjInit();
+        cheerpjCreateDisplay(1280, 720);
+        await cheerpjRunJar("/app/duskclient.jar");
+      })();
+    </script>
   </body>
 </html>
