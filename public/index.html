@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DuskCheerpJ test</title>
+    <script src="https://cjrtnc.leaningtech.com/20250618_2540/loader.js"></script>
+  </head>
+  <body>
+    <script>
+      (async function () {
+        try {
+          // Fetch the ephemeral Tailscale auth key from the backend service.
+          const response = await fetch("/api/get-key", { method: "POST" });
+          if (!response.ok) {
+            throw new Error(`Failed to get auth key: ${response.statusText}`);
+          }
+          const data = await response.json();
+          const tailscaleAuthKey = data.key;
+
+          // Initialize CheerPJ with the fetched key.
+          await cheerpjInit({
+            tailscaleAuthKey: tailscaleAuthKey,
+          });
+
+          cheerpjCreateDisplay(1280, 720);
+          await cheerpjRunJar("/app/DuskComet/duskclient.jar");
+
+        } catch (error) {
+          console.error("Error during initialization:", error);
+          // Display an error message to the user.
+          const body = document.querySelector("body");
+          body.innerHTML = `<h1>Error</h1><p>Could not connect to the game server. Please try again later.</p>`;
+        }
+      })();
+    </script>
+  </body>
+</html>
