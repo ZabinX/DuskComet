@@ -1,0 +1,39 @@
+# Diagnostic Commands for Tailscale API
+
+## Step 1: Get an Access Token
+
+Replace YOUR_CLIENT_ID and YOUR_CLIENT_SECRET with the actual values from your Vercel settings and run this command:
+
+```bash
+curl -d "client_id=YOUR_CLIENT_ID" -d "client_secret=YOUR_CLIENT_SECRET" "https://api.tailscale.com/api/v2/oauth/token"
+```
+
+If this is successful, it will return a JSON object with an `access_token`. Please copy that token for the next step. If it fails, there is an issue with your Client ID or Secret.
+
+## Step 2: Try to Create a Key
+
+Now, replace YOUR_ACCESS_TOKEN, YOUR_TAILNET_NAME (which is dusk.coat-richter.ts.net), and YOUR_TAG in the command below. Please be absolutely sure to copy and paste the values directly from your Vercel settings.
+
+```bash
+curl -X POST "https://api.tailscale.com/api/v2/tailnet/YOUR_TAILNET_NAME/keys" \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+     -H "Content-Type: application/json" \
+     --data-binary @- <<'EOF'
+{
+    "capabilities": {
+        "devices": {
+            "create": {
+                "reusable": false,
+                "ephemeral": true,
+                "preauthorized": false,
+                "tags": ["YOUR_TAG"]
+            }
+        }
+    },
+    "expirySeconds": 300
+}
+EOF
+```
+
+The result of this second command will tell us everything. Let me know what it outputs.
+
