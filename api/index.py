@@ -15,9 +15,20 @@ def get_key():
     """
     Generates a temporary, ephemeral Tailscale authentication key.
     """
-    if not all([OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, TAILNET, TAG]):
+    # More detailed check for environment variables
+    missing_vars = []
+    if not OAUTH_CLIENT_ID:
+        missing_vars.append("TS_OAUTH_CLIENT_ID")
+    if not OAUTH_CLIENT_SECRET:
+        missing_vars.append("TS_OAUTH_CLIENT_SECRET")
+    if not TAILNET:
+        missing_vars.append("TS_TAILNET")
+    if not TAG:
+        missing_vars.append("TS_TAG")
+
+    if missing_vars:
         return jsonify({
-            "error": "Server is missing required environment variables."
+            "error": f"Server is missing required environment variables: {', '.join(missing_vars)}"
         }), 500
 
     try:
@@ -55,11 +66,16 @@ def get_key():
         return jsonify({"key": new_key})
 
     except requests.exceptions.RequestException as e:
-        print(f"Error communicating with Tailscale API: {e}")
-        return jsonify({"error": "Could not generate Tailscale key"}), 500
+        error_message = f"Error communicating with Tailscale API: {e}"
+        if e.response is not None:
+            error_message += f" | Status Code: {e.response.status_code} | Response: {e.response.text}"
+        print(error_message)
+        return jsonify({"error": "Could not generate Tailscale key", "details": error_message}), 500
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return jsonify({"error": "An internal server error occurred"}), 500
+        error_message = f"An unexpected error occurred: {e}"
+        print(error_message)
+        return jsonify({"error": "An internal server error occurred", "details": error_message}), 500
 
 # Vercel will automatically handle running the Flask app.
 # The `if __name__ == "__main__":` block is not needed.
+
