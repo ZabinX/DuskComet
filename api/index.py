@@ -52,7 +52,7 @@ def get_key():
                         "reusable": False,
                         "ephemeral": True,
                         "preauthorized": False,
-                        "tags": [TAG],
+                        "tags": [f"tag:{TAG}"],
                     }
                 }
             },

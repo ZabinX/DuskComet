@@ -1,0 +1,83 @@
+# Diagnostic Commands for Tailscale API
+
+## Step 1: Get an Access Token
+
+Replace YOUR_CLIENT_ID and YOUR_CLIENT_SECRET with the actual values from your Vercel settings and run this command:
+
+```bash
+curl -d "client_id=YOUR_CLIENT_ID" -d "client_secret=YOUR_CLIENT_SECRET" "https://api.tailscale.com/api/v2/oauth/token"
+```
+
+If this is successful, it will return a JSON object with an `access_token`. Please copy that token for the next step. If it fails, there is an issue with your Client ID or Secret.
+
+## Step 2: Try to Create a Key
+
+Now, replace YOUR_ACCESS_TOKEN, YOUR_TAILNET_NAME (which is dusk.coat-richter.ts.net), and YOUR_TAG in the command below. Please be absolutely sure to copy and paste the values directly from your Vercel settings.
+
+```bash
+curl -X POST "https://api.tailscale.com/api/v2/tailnet/YOUR_TAILNET_NAME/keys" \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+     -H "Content-Type: application/json" \
+     --data-binary @- <<'EOF'
+{
+    "capabilities": {
+        "devices": {
+            "create": {
+                "reusable": false,
+                "ephemeral": true,
+                "preauthorized": false,
+                "tags": ["YOUR_TAG"]
+            }
+        }
+    },
+    "expirySeconds": 300
+}
+EOF
+```
+
+The result of this second command will tell us everything. Let me know what it outputs.
+
+
+
+
+Here's more info from Jules: 
+
+You are right to ask for a clearer explanation. The problem is in your Tailscale account settings, not the code.
+
+Here is a simple guide:
+
+    Go to your Tailscale Admin Console: https://login.tailscale.com/admin
+
+    Authorize the "tskey" Tag:
+        Click on Access Controls in the menu.
+        Find the "tagOwners" section in the policy text.
+        Add this line inside it: "tag:tskey": ["autogroup:admin"],
+        Click Save.
+
+    Give Your App Permission:
+        Click on Keys in the menu.
+        Click the OAuth clients tab.
+        Find your Vercel app's client, click the menu, and choose Edit.
+        Under "Scopes," set Devices to Read and Write.
+        Click Save.
+
+After doing this, please try your Vercel website again. It should work now.
+
+
+There's more.
+
+Thank you! That shows me the exact problem. The issue is a small syntax error.
+
+Please do this, and it will work:
+
+    Go to the Access Controls page in your Tailscale Admin Console.
+    Find the section that starts with "tagOwners".
+    Delete everything inside that section and replace it with this exact block of text:
+
+"tagOwners": {
+  "tag:tskey": ["autogroup:admin"]
+}
+
+Please copy the entire block, including the curly braces {}. After you click Save, the problem will be solved, and your Vercel website will work. This is the final fix.
+
+
