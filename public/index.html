@@ -23,7 +23,7 @@
           });
 
           cheerpjCreateDisplay(1280, 720);
-          await cheerpjRunMain("Dusk", "/app/duskclient.jar:/app/./lib/flatlaf-3.4.1.jar");
+          await cheerpjRunJar("/app/duskclient.jar");
 
         } catch (error) {
           console.error("Error during initialization:", error);
