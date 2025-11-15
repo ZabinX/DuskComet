@@ -4,21 +4,8 @@
     <meta charset="utf-8" />
     <title>DuskCheerpJ test</title>
     <script src="https://cjrtnc.leaningtech.com/20250618_2540/loader.js"></script>
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        overflow: hidden; /* Prevent scrollbars */
-        background: black;
-      }
-      #cheerpj-container {
-        width: 100%;
-        height: 100%;
-      }
-    </style>
   </head>
   <body>
-    <div id="cheerpj-container"></div>
     <script>
       (async function () {
         try {
@@ -35,8 +22,7 @@
             tailscaleAuthKey: tailscaleAuthKey,
           });
 
-          const container = document.getElementById('cheerpj-container');
-          cheerpjCreateDisplay(-1, -1, container);
+          cheerpjCreateDisplay(1280, 720);
           await cheerpjRunJar("/app/duskclient.jar");
 
         } catch (error) {
@@ -49,6 +35,5 @@
     </script>
   </body>
 </html>
-
 
 
