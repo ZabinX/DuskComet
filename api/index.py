@@ -8,7 +8,6 @@ app = Flask(__name__)
 OAUTH_CLIENT_ID = os.environ.get("TS_OAUTH_CLIENT_ID")
 OAUTH_CLIENT_SECRET = os.environ.get("TS_OAUTH_CLIENT_SECRET")
 TAILNET = os.environ.get("TS_TAILNET")
-TAG = os.environ.get("TS_TAG")
 
 @app.route("/api/get-key", methods=["POST"])
 def get_key():
@@ -23,8 +22,6 @@ def get_key():
         missing_vars.append("TS_OAUTH_CLIENT_SECRET")
     if not TAILNET:
         missing_vars.append("TS_TAILNET")
-    if not TAG:
-        missing_vars.append("TS_TAG")
 
     if missing_vars:
         return jsonify({
@@ -52,7 +49,7 @@ def get_key():
                         "reusable": False,
                         "ephemeral": True,
                         "preauthorized": False,
-                        "tags": [f"tag:{TAG}"],
+                        "tags": ["tag:game-client"],
                     }
                 }
             },
@@ -78,4 +75,6 @@ def get_key():
 
 # Vercel will automatically handle running the Flask app.
 # The `if __name__ == "__main__":` block is not needed.
+
+
 
