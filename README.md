@@ -58,9 +58,9 @@ This client will allow our Vercel API to generate keys without needing your pers
 2.  Under "OAuth clients", click **"Generate new client..."**.
 3.  **Edit Scopes:** This is the most critical security step. Click **"Customize scopes..."**.
     -   Turn **OFF** all scopes.
-    -   Find the **"Keys"** scope and enable it.
+    -   Find the **"Auth Keys"** scope and enable it.
     -   Click the pencil icon to edit the "Keys" scope permission.
-    -   Ensure only **"Write"** is checked. Uncheck "Read". This enforces the **Principle of Least Privilege**—the client can only create keys, which is its sole job.
+    -   Ensure only **"Write"** is checked. Uncheck "Read". This enforces the **Principle of Least Privilege**—the client can only create keys, which is its sole job. For me only option is both read/write but you also need to add the "game-client" tag here which means come back and add it after step 3.
 4.  Click **"Generate client..."**.
 5.  You will be shown a **Client ID** and a **Client Secret**. Copy both of these immediately and save them somewhere secure (like a password manager). You will need them for the Vercel setup. **You will not be able to see the Client Secret again.**
 
